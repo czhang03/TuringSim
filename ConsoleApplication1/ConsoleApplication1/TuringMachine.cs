@@ -54,7 +54,16 @@ namespace TuringSim
             _transactionFunction.Add(dictKey, dictValue);
         }
 
-        private void InputTransactionFunction()
+        private void InputTransactionFunctionFromFile(string fileLocation)
+        {
+            string[] fileLines = System.IO.File.ReadAllLines(fileLocation);
+            foreach (var line in fileLines)
+            {
+                ParseTransactionInputLine(line);
+            }
+        }
+
+        private void InputTransactionFunctionFromConsole()
         {
             Console.WriteLine("Please input all the transactions in the following form");
             Console.WriteLine("<original state>,<read character>:<go to state>,<write character>,<movement(R or L)>");
@@ -81,7 +90,19 @@ namespace TuringSim
         {
             InputTestString();
             InputStartState();
-            InputTransactionFunction();
+            // prompt for the method to read file
+            Console.WriteLine("Please chooce you want to input the transaction function by file(input 0) or by console(input 1)");
+            var option = Console.ReadLine();
+            if (option == "0")
+            {
+                Console.WriteLine("Please input the file location:");
+                var fileLocation = Console.ReadLine();
+                InputTransactionFunctionFromFile(fileLocation);
+            }
+            else
+            {
+                InputTransactionFunctionFromConsole();
+            }
         }
 
         private void ExtendRight()
